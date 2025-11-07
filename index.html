@@ -21,21 +21,39 @@
   .hint{margin-top:8px;font-size:12px;opacity:.65}
 
   /* —— main stage —— */
-  .stage{position:fixed;inset:0;display:grid;place-items:center;opacity:0;pointer-events:none;transition:opacity .7s ease}
+  .stage{position:fixed;inset:0;display:grid;place-items:center;opacity:0;pointer-events:none;transition:opacity .7s ease;padding-top:2vh}
   .stage.live{opacity:1;pointer-events:auto}
-  .hand{width:min(54vw,560px);max-width:90vw;display:block;filter:contrast(105%) saturate(110%);transition:transform 1.2s ease}
+  .hand{
+    width:min(54vw,560px);
+    max-width:90vw;
+    display:block;
+    filter:contrast(105%) saturate(110%);
+    transition:transform 1.2s ease;
+    animation:drift 14s ease-in-out infinite alternate;
+  }
+  @keyframes drift{
+    0%{transform:translate(0,0) scale(1);}
+    100%{transform:translate(0,-12px) scale(1.01);}
+  }
+  .hand:hover{transform:scale(1.03) rotate(.7deg);transition:transform .5s ease;}
+
   .nav{position:fixed;inset:0;display:flex;align-items:center;justify-content:space-between;padding:24px;pointer-events:none}
-  .nav a{pointer-events:auto;color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.35);padding:6px 8px}
+  .nav a{pointer-events:auto;color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.35);padding:6px 8px;font-size:15px;letter-spacing:.04em}
   .nav .left{justify-self:start}
   .nav .right{justify-self:end}
   .rand{position:fixed;right:20px;bottom:18px;padding:8px 11px;border:1px solid rgba(255,255,255,.35);cursor:pointer}
-  .tiny{position:fixed;left:20px;bottom:18px;font-size:12px;opacity:.6}
+  .tiny{position:fixed;left:20px;bottom:18px;font-size:10px;opacity:.55}
 
   /* —— input-result animations —— */
   .anim-yes .hand{transform:scale(1.06) rotate(.6deg)}
   .anim-no .hand{animation:shake .5s ease-in-out 0s 1}
   .anim-uh .hand{animation:glitch 1.1s steps(2,end) 0s 1}
-  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-10px)}50%{transform:translateX(10px)}75%{transform:translateX(-6px)}}
+  @keyframes shake{
+    0%,100%{transform:translateX(0)}
+    25%{transform:translateX(-10px)}
+    50%{transform:translateX(10px)}
+    75%{transform:translateX(-6px)}
+  }
   @keyframes glitch{
     0%{filter:hue-rotate(0deg) contrast(110%)}
     30%{transform:translate(-4px,2px) scale(1.01);filter:hue-rotate(40deg)}
@@ -69,7 +87,7 @@
     <a class="left" href="#" id="music">MUSIC</a>
     <a class="right" href="#" id="store">STORE</a>
   </div>
-  <img class="hand" id="hand" src="Hand midle1.png" alt="spectral hand on Klein blue">
+  <img class="hand" id="hand" src="Hand%20midle1.png" alt="spectral hand on Klein blue">
   <button class="rand" id="rand">?</button>
   <div class="tiny">No cookies. No tracking. No surveillance.</div>
 </div>
@@ -100,11 +118,9 @@
   const store = document.getElementById('store');
   const rand = document.getElementById('rand');
 
-  // helpers
   const say = s => (s||"").toLowerCase().trim();
 
   function reveal(anim){
-    // tiny flourish then reveal stage
     if(anim==='yes'){ document.body.classList.add('anim-yes'); }
     else if(anim==='no'){ document.body.classList.add('anim-no'); }
     else { document.body.classList.add('anim-uh'); }
